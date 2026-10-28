@@ -101,32 +101,91 @@ upl-academic-chatbot/
 
 ## ⚙️ How It Works
 
-### RAG Pipeline
 
-User Query (any language)
-↓
+## 🔄 Chatbot Workflow Architecture
 
-Language Detection
-(English / Hindi / Gujarati / Hinglish / Guj-English)
-↓
-Query Expansion
-(“course” → expands to full course-name terms)
-↓
-Hybrid Retrieval (FAISS)
-├── Search Structured QA chunks (struct.index)
-└── Search Unstructured website chunks (unstruct.index)
-↓
-Smart Routing
-├── If high confidence → use structured answer
-├── If list query (courses, programs) → list mode
-└── If low confidence → use unstructured + structured both
-↓
-Context Building (max 5000 chars)
-↓
-LLM Call (Groq — LLaMA 3.3 70B)
-Language instruction injected in system prompt
-↓
-Response in detected language → User
+The multilingual AI chatbot processes user queries through the following pipeline:
+
+### 1. User Query
+- Accepts queries in English, Hindi, Gujarati, Hinglish, and Guj-English.
+
+### 2. Language Detection
+- Identifies the language of the user's query.
+- Helps generate responses in the detected language.
+
+### 3. Query Expansion
+- Expands short or ambiguous queries into meaningful search terms.
+- Example: `"course"` → relevant full course names and related terms.
+
+### 4. Hybrid Retrieval (FAISS)
+Retrieves relevant information from two knowledge sources:
+
+- **Structured QA Retrieval:** Searches structured question-answer chunks using `struct.index`.
+- **Unstructured Website Retrieval:** Searches website content chunks using `unstruct.index`.
+
+### 5. Smart Routing
+Selects the appropriate response strategy based on retrieval confidence and query type:
+
+- **High Confidence:** Uses the structured answer directly.
+- **List Queries:** Activates list mode for queries about courses, programs, and other multiple-item information.
+- **Low Confidence:** Combines structured and unstructured retrieval results for better context.
+
+### 6. Context Building
+- Combines the most relevant retrieved information.
+- Limits the context to a maximum of **5,000 characters** before sending it to the LLM.
+
+### 7. LLM Response Generation
+- Uses **Groq API with LLaMA 3.3 70B** to generate responses.
+- Injects language-specific instructions into the system prompt.
+- Generates answers grounded in the retrieved context.
+
+### 8. Multilingual Response
+- Returns the final answer in the detected language.
+- Provides a conversational experience for users asking academic queries in supported languages.
+
+---
+
+## 📊 Workflow Diagram
+
+```text
+User Query (Any Supported Language)
+              |
+              v
+       Language Detection
+              |
+              v
+         Query Expansion
+              |
+              v
+       Hybrid Retrieval (FAISS)
+          /           \
+         v             v
+ Structured QA     Website Chunks
+  struct.index     unstruct.index
+          \           /
+           v         v
+           Smart Routing
+                 |
+        +--------+--------+
+        |        |        |
+        v        v        v
+     High     List      Low
+  Confidence   Mode   Confidence
+        |        |        |
+        +--------+--------+
+                 |
+                 v
+          Context Building
+         (Maximum 5,000 Chars)
+                 |
+                 v
+       Groq — LLaMA 3.3 70B
+        (Language Instructions)
+                 |
+                 v
+     Response in Detected Language
+```
+
 
 ### Embedding Strategy
 
