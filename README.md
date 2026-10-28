@@ -71,33 +71,32 @@ This project builds an AI-powered chatbot that:
 ---
 
 ## 📁 Project Structure
+```text
 upl-academic-chatbot/
 │
-├── backend.py # Main FastAPI backend (RAG pipeline)
-│
+├── backend.py
 ├── data/
-│ ├── Full_multilingual_dataset.json # Structured QA pairs (EN/HI/GU)
-│ └── upl_data.json # Unstructured university website data
+│   ├── Full_multilingual_dataset.json
+│   └── upl_data.json
 │
-├── index.html # Frontend chatbot UI (plain HTML/CSS/JS)
+├── index.html
 │
-├── embeddings.npz # Cached embeddings (auto-generated, not in git)
-├── struct.index # Cached FAISS index (auto-generated, not in git)
-├── unstruct.index # Cached FAISS index (auto-generated, not in git)
+├── embeddings.npz
+├── struct.index
+├── unstruct.index
 │
 ├── notebooks/
-│ └── upl_final.ipynb # Experiments and evaluation notebook
+│   └── upl_final.ipynb
 │
 ├── evaluation/
-│ └── upl_chatbot_full_evaluation.xlsx # Full evaluation results
+│   └── upl_chatbot_full_evaluation.xlsx
 │
-├── requirements.txt # Python dependencies
-├── .env.example # API key template (copy to .env)
-├── .gitignore # Excludes .env, cache files, large indexes
+├── requirements.txt
+├── .env.example
+├── .gitignore
 └── README.md
+```
 
-
----
 
 ## ⚙️ How It Works
 
@@ -343,9 +342,9 @@ Full evaluation available in `evaluation/upl_chatbot_full_evaluation.xlsx`
 
 **Sakshi**  
 B.E. Computer Engineering  
-📧 your.email@example.com  
-🔗 [LinkedIn](https://linkedin.com/in/your-profile)  
-🐙 [GitHub](https://github.com/your-username)
+📧 sakshipetkar2812@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/sakshi-petkar-1027352b0/)  
+🐙 [GitHub]()
 
 ---
 
