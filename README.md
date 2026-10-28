@@ -71,3 +71,59 @@ This project builds an AI-powered chatbot that:
 ---
 
 ## 📁 Project Structure
+upl-academic-chatbot/
+│
+├── backend.py # Main FastAPI backend (RAG pipeline)
+│
+├── data/
+│ ├── Full_multilingual_dataset.json # Structured QA pairs (EN/HI/GU)
+│ └── upl_data.json # Unstructured university website data
+│
+├── index.html # Frontend chatbot UI (plain HTML/CSS/JS)
+│
+├── embeddings.npz # Cached embeddings (auto-generated, not in git)
+├── struct.index # Cached FAISS index (auto-generated, not in git)
+├── unstruct.index # Cached FAISS index (auto-generated, not in git)
+│
+├── notebooks/
+│ └── upl_final.ipynb # Experiments and evaluation notebook
+│
+├── evaluation/
+│ └── upl_chatbot_full_evaluation.xlsx # Full evaluation results
+│
+├── requirements.txt # Python dependencies
+├── .env.example # API key template (copy to .env)
+├── .gitignore # Excludes .env, cache files, large indexes
+└── README.md
+
+
+---
+
+## ⚙️ How It Works
+
+### RAG Pipeline
+
+User Query (any language)
+↓
+
+Language Detection
+(English / Hindi / Gujarati / Hinglish / Guj-English)
+↓
+Query Expansion
+(“course” → expands to full course-name terms)
+↓
+Hybrid Retrieval (FAISS)
+├── Search Structured QA chunks (struct.index)
+└── Search Unstructured website chunks (unstruct.index)
+↓
+Smart Routing
+├── If high confidence → use structured answer
+├── If list query (courses, programs) → list mode
+└── If low confidence → use unstructured + structured both
+↓
+Context Building (max 5000 chars)
+↓
+LLM Call (Groq — LLaMA 3.3 70B)
+Language instruction injected in system prompt
+↓
+Response in detected language → User
